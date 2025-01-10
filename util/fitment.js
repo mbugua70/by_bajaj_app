@@ -33,10 +33,18 @@ form.addEventListener(
       formData_one.append("ba_region", locationsEl);
       formData_one.append("project", project);
 
+      const data = {};
+      formData_one.forEach((value, key) => {
+        data[key] = value;
+      });
+
       setTimeout(() => {
-        fetch("https://iguru.co.ke/bajaj/scripts/BM.php", {
+        fetch("https://brandyolk.iguru.co.ke/process/BM.php", {
           method: "POST",
-          body: formData_one,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         })
           .then((res) => res.json())
           .then((data) => {
@@ -52,6 +60,7 @@ form.addEventListener(
               appNotifier("Network error, Please try again!");
               shouldProceed = false;
             } else {
+              console.log(err)
               appNotifier("Operation has not been completed!");
             }
           });
